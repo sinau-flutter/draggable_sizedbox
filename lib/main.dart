@@ -10,6 +10,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Color color1 = Colors.teal;
   Color color2 = Colors.deepOrange;
+  Color targetColor;
+  bool isAccepted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,34 @@ class _MyAppState extends State<MyApp> {
                   ),
                 )
               ],
+            ),
+            DragTarget<Color>(
+              onWillAccept: (value) => true,
+              onAccept: (value) {
+                isAccepted = true;
+                targetColor = value;
+              },
+              builder: (context, candidates, rejected) {
+                return (isAccepted)
+                    ? SizedBox(
+                        width: 200,
+                        height: 200,
+                        child: Material(
+                          color: targetColor,
+                          shape: StadiumBorder(),
+                          elevation: 3,
+                        ),
+                      )
+                    : SizedBox(
+                        width: 200,
+                        height: 200,
+                        child: Material(
+                          color: Colors.grey,
+                          shape: StadiumBorder(),
+                          elevation: 3,
+                        ),
+                      );
+              },
             )
           ],
         ),
